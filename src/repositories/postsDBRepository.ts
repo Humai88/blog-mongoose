@@ -1,15 +1,16 @@
 import { ObjectId} from "mongodb";
-import { blogsCollection, commentsCollection, postsCollection } from "../db/mongo-db"
+import { commentsCollection, postsCollection } from "../db/mongo-db"
 import { PostInputModel } from "../models/PostModel"
 import { BlogDBViewModel, CommentDBViewModel, PostDBViewModel } from "../models/DBModel";
 import { CommentInputModel } from "../models/CommentModel";
 import { UserViewModel } from "../models/UserModel";
+import { BlogModel } from "../models/blog-model";
 
 export const postsDBRepository = {
     
   async createPost(post: PostInputModel): Promise<PostDBViewModel> {
     const objectPostId = new ObjectId(post.blogId);
-    const blog: BlogDBViewModel | null = await blogsCollection.findOne({ _id: objectPostId })
+    const blog: BlogDBViewModel | null = await BlogModel.findOne({ _id: objectPostId })
     const objectId = new ObjectId();
     const newPost: PostDBViewModel = {
       ...post,

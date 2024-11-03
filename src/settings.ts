@@ -5,7 +5,7 @@ dotenv.config()
 export const SETTINGS = {
     ADMIN: 'admin:qwerty',
     MONGO_URL: process.env.MONGO_URL || '',
-    DB_NAME: process.env.DB_NAME || 'blog',
+    DB_NAME: process.env.DB_NAME || 'blog-mongoose',
     BLOG_COLLECTION_NAME: process.env.BLOG_COLLECTION_NAME || 'blogs',
     POST_COLLECTION_NAME: process.env.POST_COLLECTION_NAME || 'posts',
     USER_COLLECTION_NAME: process.env.USER_COLLECTION_NAME || 'users',
