@@ -1,20 +1,19 @@
-import { postsCollection } from "../db/mongo-db"
+import { blogsCollection, postsCollection } from "../db/mongo-db"
 import { BlogInputModel, PostInBlogInputModel } from "../models/BlogModel"
 import {  ObjectId } from "mongodb";
 import { BlogDBViewModel, PostDBViewModel } from "../models/DBModel";
-import { BlogModel } from "../models/blog-model";
 
 export const blogsDBRepository = {
 
   async findBlog(id: string): Promise<BlogDBViewModel | null> {
     const objectId = new ObjectId(id);
-    const blog: BlogDBViewModel| null = await BlogModel.findOne({ _id: objectId })
+    const blog: BlogDBViewModel| null = await blogsCollection.findOne({ _id: objectId })
     return blog
   },
 
   async createBlog(blog: BlogDBViewModel): Promise<BlogDBViewModel> {
-    const newBlog = await BlogModel.create(blog)
-    const insertedBlog = await BlogModel.findOne({ _id: newBlog._id });
+    const newBlog = await blogsCollection.insertOne(blog)
+    const insertedBlog = await blogsCollection.findOne({ _id: newBlog.insertedId });
   
     if (!insertedBlog) {
       throw new Error('Failed to retrieve inserted blog');
@@ -38,13 +37,13 @@ export const blogsDBRepository = {
 
   async updateBlog(id: string, blog: BlogInputModel): Promise<boolean> {
     const objectBlogId = new ObjectId(id);
-    const result = await BlogModel.updateOne({ _id: objectBlogId }, { $set: { name: blog.name, websiteUrl: blog.websiteUrl, description: blog.description } })
+    const result = await blogsCollection.updateOne({ _id: objectBlogId }, { $set: { name: blog.name, websiteUrl: blog.websiteUrl, description: blog.description } })
     return result.matchedCount === 1
   },
 
   async deleteBlog(id: string): Promise<boolean> {
     const objectBlogId = new ObjectId(id);
-    const result = await BlogModel.deleteOne({ _id: objectBlogId });
+    const result = await blogsCollection.deleteOne({ _id: objectBlogId });
     return result.deletedCount === 1
   },
 
