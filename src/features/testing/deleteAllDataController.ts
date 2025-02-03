@@ -1,14 +1,17 @@
 import { Request, Response } from 'express'
-import { commentsCollection, postsCollection, usersCollection, deviceSessionsCollection } from '../../db/mongo-db';
 import { BlogModel } from '../../models/blog-model';
+import { PostModel } from '../../models/post-model';
+import { CommentModel } from '../../models/comment-model';
+import { UserModel } from '../../models/user-model';
+import { DeviceModel } from '../../models/device-model';
 
 export const deleteAllDataController = async (req: Request, res: Response): Promise<any> => {
   try {
     await BlogModel.deleteMany({});
-    await postsCollection.deleteMany({});
-    await usersCollection.deleteMany({});
-    await commentsCollection.deleteMany({});
-    await deviceSessionsCollection.deleteMany({});
+    await PostModel.deleteMany({});
+    await UserModel.deleteMany({});
+    await CommentModel.deleteMany({});
+    await DeviceModel.deleteMany({});
     return res
       .sendStatus(204)
   } catch (error) {

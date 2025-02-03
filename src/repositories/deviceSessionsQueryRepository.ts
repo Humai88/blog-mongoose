@@ -1,12 +1,13 @@
-import {deviceSessionsCollection} from '../db/mongo-db'
-import {DeviceViewModel} from '../models/DeviceModel'
+
 import {DeviceDBViewModel} from '../models/DBModel'
+import { DeviceModel } from '../models/device-model';
+import { DeviceViewModel } from '../models/DeviceModel';
 
 
 export const deviceSessionsQueryRepository = {
 
   async getSessions(userId:string): Promise<DeviceViewModel[]> {
-    const sessions = await deviceSessionsCollection.find({ userId: userId }).toArray();
+    const sessions = await DeviceModel.find({ userId: userId }).lean();
     return sessions.map(session => this.mapCommentResult(session))
   },
 

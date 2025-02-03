@@ -1,10 +1,11 @@
 import { ObjectId} from "mongodb";
-import { commentsCollection, postsCollection } from "../db/mongo-db"
 import { PostInputModel } from "../models/PostModel"
 import { BlogDBViewModel, CommentDBViewModel, PostDBViewModel } from "../models/DBModel";
 import { CommentInputModel } from "../models/CommentModel";
 import { UserViewModel } from "../models/UserModel";
 import { BlogModel } from "../models/blog-model";
+import { PostModel } from "../models/post-model";
+import { CommentModel } from "../models/comment-model";
 
 export const postsDBRepository = {
     
@@ -18,19 +19,19 @@ export const postsDBRepository = {
       blogName: blog?.name ? blog.name : '',
       _id: objectId,
     }
-    await postsCollection.insertOne(newPost)
+    await PostModel.create(newPost)
     return newPost
   },
 
   async updatePost(id: string, post: PostInputModel): Promise<boolean> {
     const objectId = new ObjectId(id);
-    const result = await postsCollection.updateOne({ _id: objectId }, { $set: { title: post.title, blogId: post.blogId, content: post.content, shortDescription: post.shortDescription } })
+    const result = await PostModel.updateOne({ _id: objectId }, { $set: { title: post.title, blogId: post.blogId, content: post.content, shortDescription: post.shortDescription } })
     return result.matchedCount === 1
   },
 
   async deletePost(id: string): Promise<boolean> {
     const objectId = new ObjectId(id);
-    const result = await postsCollection.deleteOne({ _id: objectId });
+    const result = await PostModel.deleteOne({ _id: objectId });
     return result.deletedCount === 1
   },
 
@@ -46,7 +47,7 @@ export const postsDBRepository = {
         userLogin: user!.login
       }
     }
-    await commentsCollection.insertOne(newComment)
+    await CommentModel.create(newComment)
     return newComment
   },
 

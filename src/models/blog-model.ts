@@ -4,8 +4,8 @@ import { BlogDBViewModel } from './DBModel'
 
 export const BlogSchema = new mongoose.Schema<WithId<BlogDBViewModel>>({
   name: {type: String, required: true},
-  description: String,
-  websiteUrl: String,
+  description: {type: String, required: true},
+  websiteUrl: {type: String, required: true},
   createdAt: {type: String, default: new Date().toISOString()},
   isMembership: Boolean,
 })

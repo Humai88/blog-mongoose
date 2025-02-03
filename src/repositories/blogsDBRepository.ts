@@ -1,8 +1,8 @@
-import { postsCollection } from "../db/mongo-db"
 import { BlogInputModel, PostInBlogInputModel } from "../models/BlogModel"
 import {  ObjectId } from "mongodb";
 import { BlogDBViewModel, PostDBViewModel } from "../models/DBModel";
 import { BlogModel } from "../models/blog-model";
+import { PostModel } from "../models/post-model";
 
 export const blogsDBRepository = {
 
@@ -32,7 +32,7 @@ export const blogsDBRepository = {
       blogName: blog?.name ? blog.name : '',
       blogId: id
     }
-    await postsCollection.insertOne(newPost)
+    await PostModel.create(newPost)
     return newPost
   },
 
