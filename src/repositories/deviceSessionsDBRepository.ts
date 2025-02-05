@@ -23,7 +23,6 @@ export const deviceSessionsDBRepository = {
   },
   
   async saveDeviceSession(session: DeviceDBViewModel ): Promise<boolean> {
-    console.log('Attempting to save device session:', session);
     const result = await deviceSessionsCollection.insertOne(session)
     return result.acknowledged === true;
   },
