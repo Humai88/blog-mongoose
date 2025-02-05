@@ -14,7 +14,7 @@ export const blogsDBRepository = {
 
   async createBlog(blog: BlogDBViewModel): Promise<BlogDBViewModel> {
     const newBlog = await BlogModel.create(blog)
-    const insertedBlog = await BlogModel.findOne({ _id: newBlog._id });
+    const insertedBlog = await BlogModel.findOne({ _id: newBlog.insertedId });
   
     if (!insertedBlog) {
       throw new Error('Failed to retrieve inserted blog');

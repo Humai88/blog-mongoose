@@ -1,9 +1,7 @@
-import jwt from "jsonwebtoken"
+import jwt, { TokenExpiredError } from "jsonwebtoken"
 import { SETTINGS } from "../settings";
 import { ObjectId } from "mongodb";
-import {RefreshTokenPayload} from "../models/TokenModel"
-import {TokenVerificationResult} from "../models/TokenModel"
-import { TokenExpiredError } from 'jsonwebtoken';
+import {RefreshTokenPayload, TokenVerificationResult} from "../models/TokenModel"
 
 export const jwtService = {
   async generateToken(userId: string): Promise<any> {
