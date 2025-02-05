@@ -1,5 +1,5 @@
 
-import { blogsCollection } from "../db/mongo-db";
+import { BlogModel } from "../models/blog-model";
 import { BlogViewModel } from "../models/BlogModel";
 import { BlogDBViewModel } from "../models/DBModel";
 import { PaginatorBlogViewModel, QueryBlogModel } from "../models/QueryModel";
@@ -8,11 +8,11 @@ import { blogsDBRepository } from "./blogsDBRepository";
 export const blogsQueryRepository = {
   
   async getBlogs(query: QueryBlogModel): Promise<PaginatorBlogViewModel> {
-    const blogsMongoDbResult = await blogsCollection.find(this.setFilter(query))
-      .sort(query.sortBy, query.sortDirection)
-      .skip((query.pageNumber - 1) * query.pageSize)
-      .limit(query.pageSize)
-      .toArray()
+    const blogsMongoDbResult = await BlogModel.find(this.setFilter(query))
+    .lean()
+    .sort({ [query.sortBy]: query.sortDirection })
+    .skip((query.pageNumber - 1) * query.pageSize)
+    .limit(query.pageSize);
     return this.mapBlogToPaginatorResult(blogsMongoDbResult, query)
   },
 
@@ -32,7 +32,7 @@ export const blogsQueryRepository = {
   },
 
   async setTotalCount(filter: any): Promise<number> {
-    const totalCount = await blogsCollection.countDocuments(filter)
+    const totalCount = await BlogModel.countDocuments(filter)
     return totalCount
   },
 
