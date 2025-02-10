@@ -124,8 +124,9 @@ export const authService = {
       const userAgent = req.get('User-Agent') || 'Unknown Device';
       const ip = req.ip || req.socket.remoteAddress || 'Unknown IP';
       const title = parseUserAgent(userAgent);
-
+      const objectId = new ObjectId();
       const newSession = {
+        _id: objectId,
         userId: userId,
         ip: ip,
         title: title,
