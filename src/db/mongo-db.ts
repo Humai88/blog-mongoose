@@ -1,4 +1,4 @@
-import { BlogDBViewModel, CommentDBViewModel, PostDBViewModel, UserDBViewModel, DeviceDBViewModel, ApiRequestDBViewModel } from "../models/DBModel";
+import { BlogDBViewModel, CommentDBViewModel, PostDBViewModel, UserDBViewModel, DeviceDBViewModel } from "../models/DBModel";
 import { SETTINGS } from "../settings";
 import { Collection, MongoClient } from "mongodb"; // Import the MongoClient class from the "mongodb" module
 
@@ -12,7 +12,6 @@ export const postsCollection: Collection<PostDBViewModel> = db.collection<PostDB
 export const usersCollection: Collection<UserDBViewModel> = db.collection<UserDBViewModel>(SETTINGS.USER_COLLECTION_NAME)
 export const commentsCollection: Collection<CommentDBViewModel> = db.collection<CommentDBViewModel>(SETTINGS.COMMENT_COLLECTION_NAME)
 export const deviceSessionsCollection: Collection<DeviceDBViewModel> = db.collection<DeviceDBViewModel>(SETTINGS.DEVICE_SESSIONS_COLLECTION_NAME)
-export const apiRequestsCollection: Collection<ApiRequestDBViewModel> = db.collection<ApiRequestDBViewModel>(SETTINGS.API_REQUESTS_COLLECTION_NAME)
  
 // проверка подключения к бд
 export const runDB = async () => {
