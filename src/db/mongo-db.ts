@@ -3,8 +3,9 @@ import mongoose from "mongoose"
 
 export const runDB = async () => {
     try {
-        const uri = `${SETTINGS.MONGO_URL}/${SETTINGS.DB_NAME}`;
-        await mongoose.connect(uri);
+        await mongoose.connect(SETTINGS.MONGO_URL, {
+            dbName: SETTINGS.DB_NAME
+        });
         console.log('connected to db')
     } catch (e) {
         console.log(e)
