@@ -12,8 +12,7 @@ export const deleteAllDataController = async (req: Request, res: Response): Prom
     await UserModel.deleteMany({});
     await CommentModel.deleteMany({});
     await DeviceModel.deleteMany({});
-    return res
-      .sendStatus(204)
+    return res.sendStatus(204)
   } catch (error) {
     return res.status(500).json({
       errorsMessages: [{ message: 'Internal server error', field: 'server' }]

@@ -16,8 +16,12 @@ export const registrationController = async (req: Request<any, UserViewModel, Us
                   });
             }
             const newUser = await authService.registerUser(req.body)
-            return newUser && res
-                  .sendStatus(204)
+            if (!newUser) {
+                  return res.status(500).json({
+                        errorsMessages: [{ message: 'User registration failed', field: 'server' }]
+                  });
+            }
+            return res.sendStatus(204)
 
       } catch (error) {
             return res.status(500).json({

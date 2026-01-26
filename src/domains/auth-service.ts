@@ -152,8 +152,8 @@ export const authService = {
     return hash
   },
 
-  async removeSpecificDeviceSession(deviceId: string): Promise<void> {
-    await deviceSessionsDBRepository.removeSpecificDeviceSession(deviceId);
+  async removeSpecificDeviceSession(deviceId: string): Promise<boolean> {
+    return await deviceSessionsDBRepository.removeSpecificDeviceSession(deviceId);
   },
 
   async createNewPassword(recoveryCode: string, newPassword: string): Promise<boolean> {
@@ -171,11 +171,6 @@ export const authService = {
     if (!updatedUser) {
       return false
     }
-    await nodemailerAdapter.sendEmail(
-      user.email,
-      emailManager.passwordRecoveryEmail,
-      {your_recovery_code: recoveryCode}
-    );
     return true
   },
 

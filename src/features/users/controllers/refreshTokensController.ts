@@ -15,8 +15,15 @@ export const refreshTokensController = async (req: Request<any>, res: Response<L
 
         const verificationResult = await jwtService.verifyRefreshToken(oldRefreshToken);
         const { payload } = verificationResult;
-        const newAccessToken = await jwtService.generateToken(payload!.userId);
-        const newRefreshToken = await jwtService.generateRefreshToken(payload!.userId, payload!.deviceId);
+        
+        if (!verificationResult.isValid || !payload) {
+            return res.status(401).json({
+                errorsMessages: [{ message: 'Invalid refresh token', field: 'refreshToken' }]
+            });
+        }
+
+        const newAccessToken = await jwtService.generateToken(payload.userId);
+        const newRefreshToken = await jwtService.generateRefreshToken(payload.userId, payload.deviceId);
         await authService.updateRefreshToken(newRefreshToken);
 
         res.cookie('refreshToken', newRefreshToken, {
