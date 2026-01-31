@@ -8,10 +8,10 @@ export const deviceSessionsQueryRepository = {
 
   async getSessions(userId:string): Promise<DeviceViewModel[]> {
     const sessions = await DeviceModel.find({ userId: userId }).lean();
-    return sessions.map(session => this.mapCommentResult(session))
+    return sessions.map(session => this.mapSessionResult(session))
   },
 
-  mapCommentResult(session: DeviceDBViewModel): DeviceViewModel {
+  mapSessionResult(session: DeviceDBViewModel): DeviceViewModel {
     const sessionForOutput: DeviceViewModel = {
       deviceId: session.deviceId,
       title: session.title,

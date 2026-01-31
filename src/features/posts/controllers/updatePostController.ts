@@ -10,11 +10,9 @@ export const updatePostController = async (req: Request<ParamModel, null, PostVi
         const { id } = req.params
         const postToUpdate = await postsService.updatePost(id, req.body)
         if (!postToUpdate) {
-            res.status(404).json({ errorsMessages: [{ message: 'Post not found', field: 'id' }] })
-            return
+            return res.status(404).json({ errorsMessages: [{ message: 'Post not found', field: 'id' }] })
         }
-        return res
-            .sendStatus(204)
+        return res.sendStatus(204)
     } catch (error) {
         return res.status(500).json({
             errorsMessages: [{ message: 'Internal server error', field: 'server' }]

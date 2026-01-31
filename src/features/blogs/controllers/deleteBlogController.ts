@@ -9,11 +9,9 @@ export const deleteBlogController = async (req: Request<ParamModel>, res: Respon
         const { id } = req.params;
         const blogToDelete = await blogsService.deleteBlog(id)
         if (!blogToDelete) {
-            res.status(404).json({ errorsMessages: [{ message: 'Blog not found', field: 'id' }] })
-            return
+            return res.status(404).json({ errorsMessages: [{ message: 'Blog not found', field: 'id' }] })
         }
-        return res
-            .sendStatus(204)
+        return res.sendStatus(204)
 
     } catch (error) {
         return res.status(500).json({

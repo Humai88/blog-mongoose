@@ -11,19 +11,14 @@ export const updateCommentController = async (req: Request<{ commentId: string }
         const { commentId } = req.params
         const commentToUpdate = await commentsQueryRepository.findComment(commentId)
         if (!commentToUpdate) {
-            res.status(404).json({ errorsMessages: [{ message: 'Comment not found', field: 'commentId' }] })
-            return
-        } else {
-            const isUserAuthorOfComment = await commentsDBRepository.checkIfUserIfAuthorOfComment(req.user!, commentId)
-            if (!isUserAuthorOfComment) {
-                res.status(403).json({ errorsMessages: [{ message: 'You are not the author of this comment', field: 'userId' }] })
-                return
-            } else {
-                await commentsService.updateComment(commentId, req.body)
-                return res
-                    .sendStatus(204)
-            }
+            return res.status(404).json({ errorsMessages: [{ message: 'Comment not found', field: 'commentId' }] })
         }
+        const isUserAuthorOfComment = await commentsDBRepository.checkIfUserIfAuthorOfComment(req.user!, commentId)
+        if (!isUserAuthorOfComment) {
+            return res.status(403).json({ errorsMessages: [{ message: 'You are not the author of this comment', field: 'userId' }] })
+        }
+        await commentsService.updateComment(commentId, req.body)
+        return res.sendStatus(204)
 
     } catch (error) {
         return res.status(500).json({

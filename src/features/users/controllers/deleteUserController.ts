@@ -11,8 +11,7 @@ export const deleteUserController = async (req: Request<ParamModel>, res: Respon
         if (!userToDelete) {
             return res.status(404).json({ errorsMessages: [{ message: 'User not found', field: 'id' }] })
         }
-        return res
-            .sendStatus(204)
+        return res.sendStatus(204)
 
     } catch (error) {
         return res.status(500).json({

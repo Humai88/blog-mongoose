@@ -10,11 +10,9 @@ export const updateBlogController = async (req: Request<ParamModel, null, BlogVi
         const { id } = req.params
         const blogToUpdate = await blogsService.updateBlog(id, req.body)
         if (!blogToUpdate) {
-            res.status(404).json({ errorsMessages: [{ message: 'Blog not found', field: 'id' }] })
-            return
+            return res.status(404).json({ errorsMessages: [{ message: 'Blog not found', field: 'id' }] })
         }
-        return res
-            .sendStatus(204)
+        return res.sendStatus(204)
 
     } catch (error) {
         return res.status(500).json({

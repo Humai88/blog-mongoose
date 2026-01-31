@@ -9,11 +9,9 @@ export const registrationEmailResendingController = async (req: Request<any, any
         const { email } = req.body
         const result = await authService.resendRegistrationEmail(email)
         if (!result) {
-            res.status(400).json({ errorsMessages: [{ message: 'Resending email confirmation failed', field: 'email' }] })
-            return
+            return res.status(400).json({ errorsMessages: [{ message: 'Resending email confirmation failed', field: 'email' }] })
         }
-        return res
-            .sendStatus(204)
+        return res.sendStatus(204)
 
     } catch (error) {
         return res.status(500).json({
