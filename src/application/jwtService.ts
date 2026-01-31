@@ -5,7 +5,7 @@ import {RefreshTokenPayload, TokenVerificationResult} from "../models/TokenModel
 
 export const jwtService = {
   async generateToken(userId: string): Promise<any> {
-    const token = jwt.sign({ userId: userId }, SETTINGS.JWT_SECRET, { expiresIn: '10s' });
+    const token = jwt.sign({ userId: userId }, SETTINGS.JWT_SECRET, { expiresIn: '10m' });
     return {
       accessToken: token
     }
