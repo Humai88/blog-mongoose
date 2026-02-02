@@ -45,6 +45,10 @@ export const postsDBRepository = {
       commentatorInfo: {  
         userId: user!.id,
         userLogin: user!.login
+      },
+      likesInfo: {
+        likesCount: 0,
+        dislikesCount: 0
       }
     }
     await CommentModel.create(newComment)

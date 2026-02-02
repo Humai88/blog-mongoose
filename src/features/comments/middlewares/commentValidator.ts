@@ -18,6 +18,17 @@ export const commentIdParamValidator = [
 
 ];
 
+export const likeStatusValidator = [
+  authMiddleware,
+  body('likeStatus')
+    .trim()
+    .notEmpty()
+    .withMessage('likeStatus is required')
+    .isIn(['None', 'Like', 'Dislike'])
+    .withMessage('likeStatus must be one of: None, Like, Dislike'),
+  inputErrors
+];
+
 export const commentQueryValidator = [
   query('pageNumber')
     .isInt({ min: 1 })
