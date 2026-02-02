@@ -2,6 +2,7 @@ import jwt, { TokenExpiredError } from "jsonwebtoken"
 import { SETTINGS } from "../settings";
 import { ObjectId } from "mongodb";
 import {RefreshTokenPayload, TokenVerificationResult} from "../models/TokenModel"
+import { Request } from "express";
 
 export const jwtService = {
   async generateToken(userId: string): Promise<any> {
@@ -39,6 +40,25 @@ export const jwtService = {
       return new ObjectId(result.userId)
     } catch (error) {
       return null
+    }
+  },
+
+  /**
+   * Extracts userId from Authorization header if valid token is present.
+   * Returns null if no token or invalid token - does not throw.
+   */
+  async getUserIdFromRequest(req: Request): Promise<string | null> {
+    try {
+      const authHeader = req.headers['authorization'];
+      if (!authHeader) return null;
+
+      const [bearer, token] = authHeader.split(' ');
+      if (bearer !== 'Bearer' || !token) return null;
+
+      const userId = await this.getUserIdByToken(token);
+      return userId ? userId.toString() : null;
+    } catch (error) {
+      return null;
     }
   }
 }

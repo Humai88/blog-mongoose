@@ -54,6 +54,12 @@ export interface CommentDBViewModel {
   createdAt: string,
   commentatorInfo: CommentatorInfoModel,
   postId: string
+  likesInfo: LikesInfoModel
+}
+
+export interface LikesInfoModel {
+  likesCount: number,
+  dislikesCount: number,
 }
 
 export interface DeviceDBViewModel {
@@ -72,3 +78,13 @@ export interface ApiRequestDBViewModel {
   URL: string
   date: Date
 }
+
+export interface CommentLikeDBViewModel {
+  _id: ObjectId
+  commentId: string
+  userId: string
+  status: "Like" | "Dislike"
+  createdAt: string
+}
+
+export type LikeStatus = "None" | "Like" | "Dislike"

@@ -12,4 +12,4 @@ export const DeviceSchema = new mongoose.Schema<WithId<DeviceDBViewModel>>({
   lastActiveDate: {type: Date, required: true},
 })
 
-export const DeviceModel = mongoose.model<DeviceDBViewModel>('devices', DeviceSchema)
+export const DeviceModel = mongoose.model<DeviceDBViewModel>('device_sessions', DeviceSchema)

@@ -38,7 +38,8 @@ export const postsQueryRepository = {
 
   async getComments(
     query: QueryPostModel,
-    postId: string
+    postId: string,
+    userId?: string
   ): Promise<PaginatorCommentViewModel> {
     const commentsMongoDbResult = await CommentModel
       .find({ postId: postId })
@@ -49,7 +50,8 @@ export const postsQueryRepository = {
     return this.mapCommentToPaginatorResult(
       commentsMongoDbResult,
       query,
-      postId
+      postId,
+      userId
     );
   },
 
@@ -88,19 +90,29 @@ export const postsQueryRepository = {
   async mapCommentToPaginatorResult(
     comments: CommentDBViewModel[],
     query: QueryPostModel,
-    postId?: string
+    postId?: string,
+    userId?: string
   ): Promise<PaginatorCommentViewModel> {
     const totalCount = await CommentModel.countDocuments({
       postId: postId,
     });
+    
+    // Get myStatus for each comment if userId is provided
+    const commentsWithStatus = await Promise.all(
+      comments.map(async (comment) => {
+        const myStatus = userId 
+          ? await commentsQueryRepository.getUserLikeStatus(comment._id.toString(), userId)
+          : "None" as const;
+        return commentsQueryRepository.mapCommentResult(comment, myStatus);
+      })
+    );
+    
     return {
       pagesCount: Math.ceil(totalCount / query.pageSize),
       page: query.pageNumber,
       pageSize: query.pageSize,
       totalCount,
-      items: comments.map((comment) =>
-        commentsQueryRepository.mapCommentResult(comment)
-      ),
+      items: commentsWithStatus,
     };
   },
 };

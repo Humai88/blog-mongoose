@@ -22,6 +22,16 @@ export const CommentSchema = new mongoose.Schema<WithId<CommentDBViewModel>>({
       required: true,
     },
   },
+  likesInfo: {
+    likesCount: {
+      type: Number,
+      default: 0,
+    },
+    dislikesCount: {
+      type: Number,
+      default: 0,
+    },
+  },
   postId: {
     type: String,
     required: true,
