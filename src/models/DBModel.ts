@@ -27,6 +27,12 @@ export interface PostDBViewModel {
   blogId: string
   blogName: string
   createdAt: string
+  extendedLikesInfo: ExtendedLikesInfoDBModel
+}
+
+export interface ExtendedLikesInfoDBModel {
+  likesCount: number
+  dislikesCount: number
 }
 
 export interface UserDBViewModel {
@@ -85,6 +91,15 @@ export interface CommentLikeDBViewModel {
   userId: string
   status: "Like" | "Dislike"
   createdAt: string
+}
+
+export interface PostLikeDBViewModel {
+  _id: ObjectId
+  postId: string
+  userId: string
+  login: string
+  status: "Like" | "Dislike"
+  addedAt: string
 }
 
 export type LikeStatus = "None" | "Like" | "Dislike"

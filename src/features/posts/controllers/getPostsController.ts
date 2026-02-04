@@ -1,12 +1,16 @@
 import { Request, Response } from 'express';
 import { postsQueryRepository } from '../../../repositories/postsQueryRepository';
-import { PaginatorPostViewModel, QueryPostModel } from '../../../models/QueryModel';
+import { PaginatorPostViewModel} from '../../../models/QueryModel';
 import { ErrorResultModel } from '../../../models/ErrorResultModel';
+import { jwtService } from '../../../application/jwtService';
 
 
-export const getPostsController = async (req: Request<any, any, any, QueryPostModel>, res: Response<PaginatorPostViewModel | ErrorResultModel>) => {
+export const getPostsController = async (req: Request<any, any, any, any>, res: Response<PaginatorPostViewModel | ErrorResultModel>) => {
   try {
-    const posts = await postsQueryRepository.getPosts(req.query)
+    // Try to get userId from token if present (for myStatus)
+    const userId = await jwtService.getUserIdFromRequest(req);
+    
+    const posts = await postsQueryRepository.getPosts(req.query, undefined, userId ?? undefined)
     return res
       .status(200)
       .json(posts)

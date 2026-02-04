@@ -4,12 +4,15 @@ import { PostInputModel } from '../../../models/PostModel';
 import { PostViewModel } from '../../../models/PostModel';
 import { postsService } from '../../../domains/posts-service';
 import { postsQueryRepository } from '../../../repositories/postsQueryRepository';
+import { jwtService } from '../../../application/jwtService';
 
 
 export const createPostController = async (req: Request<any, PostViewModel | ErrorResultModel, PostInputModel>, res: Response<PostViewModel | ErrorResultModel>) => {
   try {
     const newPostId = await postsService.createPost(req.body);
-    const post = await postsQueryRepository.findPost(newPostId);
+    // Try to get userId from token if present (for myStatus)
+    const userId = await jwtService.getUserIdFromRequest(req);
+    const post = await postsQueryRepository.findPost(newPostId, userId ?? undefined);
     return post && res.status(201).json(post);
   } catch (error) {
     console.error('Error in createPostController:', error);
