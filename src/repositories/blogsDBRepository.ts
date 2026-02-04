@@ -25,12 +25,16 @@ export const blogsDBRepository = {
   async createPostInBlog(id: string, post: PostInBlogInputModel): Promise<PostDBViewModel> {
     const blog: BlogDBViewModel | null = await this.findBlog(id)
     const objectId = new ObjectId();
-    const newPost = {
+    const newPost: PostDBViewModel = {
       ...post,
       createdAt: new Date().toISOString(),
       _id: objectId,
       blogName: blog?.name ? blog.name : '',
-      blogId: id
+      blogId: id,
+      extendedLikesInfo: {
+        likesCount: 0,
+        dislikesCount: 0
+      }
     }
     await PostModel.create(newPost)
     return newPost

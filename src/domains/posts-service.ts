@@ -1,4 +1,5 @@
 import { CommentInputModel } from "../models/CommentModel"
+import { LikeStatus } from "../models/DBModel"
 import { PostInputModel } from "../models/PostModel"
 import { UserViewModel } from "../models/UserModel"
 import { postsDBRepository } from "../repositories/postsDBRepository"
@@ -21,6 +22,10 @@ export const postsService = {
   async createCommentForPost(postId: string, comment: CommentInputModel, user: UserViewModel | null): Promise<string> {
     const commentMongoDbResult = await postsDBRepository.createCommentForPost(postId, comment, user)
     return commentMongoDbResult._id.toString()
+  },
+
+  async updateLikeStatus(postId: string, userId: string, login: string, likeStatus: LikeStatus): Promise<boolean> {
+    return postsDBRepository.updateLikeStatus(postId, userId, login, likeStatus)
   },
 
 }

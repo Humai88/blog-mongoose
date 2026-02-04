@@ -8,8 +8,10 @@ import { postIdParamValidator, postQueryValidator, postValidator, validateObject
 import { adminMiddleware } from '../global/middlewares/adminMiddleware'
 import { applyPostQueryDefaults } from '../features/posts/middlewares/postDefaultQueryValues'
 import { createCommentForPostController } from '../features/posts/controllers/createCommentForPostController'
-import { commentValidator } from '../features/comments/middlewares/commentValidator'
+import { commentValidator, likeStatusValidator } from '../features/comments/middlewares/commentValidator'
 import { getCommentsForPostController } from '../features/posts/controllers/getCommentsForPostController'
+import { authMiddleware } from '../global/middlewares/authMiddleware'
+import { updateLikeStatusForPostController } from '../features/posts/controllers/updateLikeStatusForPostController'
 
 export const postsRouter = Router()
  
@@ -20,4 +22,4 @@ postsRouter.delete('/:id', adminMiddleware, deletePostController)
 postsRouter.put('/:id', ...postValidator, updatePostController)
 postsRouter.post('/:postId/comments', ...commentValidator, createCommentForPostController)
 postsRouter.get('/:postId/comments', applyPostQueryDefaults, postIdParamValidator, getCommentsForPostController)
-
+postsRouter.put('/:postId/like-status', authMiddleware, postIdParamValidator, likeStatusValidator, updateLikeStatusForPostController)
